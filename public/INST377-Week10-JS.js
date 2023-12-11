@@ -1,12 +1,14 @@
 async function getCustomers() {
     console.log('Creating Customer');
-
-    var test = await fetch(`http://localhost:3000/customers`, {
+    var host = window.location.origin;
+    console.log('Host:', host)
+    var test = await fetch(`${host}/customers`, {
         method: 'GET',
         headers: {
             "Content-type": "application/json"
        }
     })
+        .then((res) => res)
         .then(async (res) => {
             console.log(res);
 
@@ -28,20 +30,20 @@ async function getCustomers() {
                 element.remove();
             }
 
-            const table = document.createElement('table');
+            var table = document.createElement('table');
             table.setAttribute('id', 'customerInfo');
 
-            const tableRow = document.createElement('tr');
+            var tableRow = document.createElement('tr');
 
-            const tableHeading1 = document.createElement('th');
+            var tableHeading1 = document.createElement('th');
             tableHeading1.innerHTML = 'First Name';
             tableRow.appendChild(tableHeading1);
 
-            const tableHeading2 = document.createElement('th');
+            var tableHeading2 = document.createElement('th');
             tableHeading2.innerHTML = 'Last Name';
             tableRow.appendChild(tableHeading2);
 
-            const tableHeading3 = document.createElement('th');
+            var tableHeading3 = document.createElement('th');
             tableHeading3.innerHTML = 'State';
             tableRow.appendChild(tableHeading3);
 
@@ -49,10 +51,10 @@ async function getCustomers() {
             document.body.appendChild(table);
 
             for (i = 0; i < res.length; i++) {
-                const customerRow = document.createElement('tr');
-                const customerFirstName = document.createElement('td');
-                const customerLastName = document.createElement('td');
-                const customerState = document.createElement('td');
+                var customerRow = document.createElement('tr');
+                var customerFirstName = document.createElement('td');
+                var customerLastName = document.createElement('td');
+                var customerState = document.createElement('td');
 
                 customerFirstName.innerHTML = res[i].cust_first_name;
                 customerLastName.innerHTML = res[i].cust_last_name;
@@ -67,11 +69,11 @@ async function getCustomers() {
         })
         .catch((error) => {
             console.log('Error:', JSON.parse(error.message));
-            const errorDiv = document.createElement('div');
+            var errorDiv = document.createElement('div');
             errorDiv.setAttribute('class', 'errorBox');
             errorDiv.setAttribute('id', 'errorBox');
 
-            const h1 = document.createElement('h1');
+            var h1 = document.createElement('h1');
             h1.innerHTML = 'Error Occurred:';
 
             const p = document.createElement('p');
@@ -85,7 +87,9 @@ async function getCustomers() {
 
 async function addCustomer() {
     console.log('Creating Customer')
-    var test = await fetch(`http://localhost:3000/customer`, {
+    var host = window.location.origin;
+
+    var test = await fetch(`${host}/customer`, {
         method: 'POST',
         body: JSON.stringify({
             "firstName": `${document.getElementById('firstName').value}`,
@@ -97,6 +101,6 @@ async function addCustomer() {
         }
     })
     await getCustomers();
-}
+    }
 
 window.onload = getCustomers;
