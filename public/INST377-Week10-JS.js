@@ -1,12 +1,11 @@
 async function getCustomers() {
     console.log('Creating Customer');
-    var host = window.location.origin;
-    console.log('Host:', host)
-    var test = await fetch(`${host}/customers`, {
+    var test = await fetch(`http://localhost:3000/customers`, {
         method: 'GET',
         headers: {
-            "Content-type": "application/json"
-       }
+            "Content-type": "application/json",
+            "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphdW9vb2JyeXd6c3B5cXJvcWl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDE5OTI2NzUsImV4cCI6MjAxNzU2ODY3NX0.84gZzUjuWx3j7cDM4sHfGnsGxUD8VaRcYMvIUuKjwWo"
+       },
     })
         .then((res) => res)
         .then(async (res) => {
@@ -87,9 +86,7 @@ async function getCustomers() {
 
 async function addCustomer() {
     console.log('Creating Customer')
-    var host = window.location.origin;
-
-    var test = await fetch(`${host}/customer`, {
+    var test = await fetch(`http://localhost:3000/customer`, {
         method: 'POST',
         body: JSON.stringify({
             "firstName": `${document.getElementById('firstName').value}`,
@@ -100,7 +97,7 @@ async function addCustomer() {
             "Content-type": "application/json"
         }
     })
-    await getCustomers();
-    }
+    getCustomers();
+}
 
 window.onload = getCustomers;

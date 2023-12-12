@@ -16,26 +16,25 @@ app.get('/', (req, res) => {
 
 
 app.get('/customers', async (req, res) => {
-    console.log('Getting Customer')
+    try {
+        console.log('Getting Customer');
 
-    const { data, error } = await supabase
-        .from('Customer')
-        .select();
+        const { data, error } = await supabase
+            .from('Customer')
+            .select();
 
-    if(error) {
-        console.log(error)
-    }else if(data){
-        res.send(data)
+        if (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal Server Error' });
+        } else {
+            res.status(200).json(data);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
+});
 
-    res.statusCode = 400;
-    res.header('Content-type', 'application/json');
-    var errorJson = {
-        "message": 'Blah2'
-    }
-    res.send(JSON.stringify(errorJson))
-    return;
-})
 
 app.post('/customer', async (req, res) => {
     console.log('Adding Customer');
